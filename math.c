@@ -100,14 +100,18 @@ void do_generate_one_question(char* signs, int difficulty)
     int result = number;
     while(*signs != 0) {
 
-        number = RAND_NUMBER(difficulty);
+        int loop = 0;
+        while(0 == (number = RAND_NUMBER(difficulty)) )
+        {
+            if(loop++ > 2) break;
+        }
         int rb = result;
         if( *signs == '+') {
             result += number;
         } else {
             result -= number;
         }
-        if(result < 0) {
+        if(result < 0 || result > difficulty) {
             result = rb;
             continue;
         }
